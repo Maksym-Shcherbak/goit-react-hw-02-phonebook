@@ -15,10 +15,10 @@ export class App extends Component {
     filter: '',
   };
 
-  addContact = e => {
-    e.preventDefault();
-    const { name, number, contacts } = this.state;
-    const isExist = this.isInPhonebook();
+  addContact = newContact => {
+    const { contacts } = this.state;
+    const { name, number } = newContact;
+    const isExist = this.isInPhonebook(name);
     if (isExist) {
       alert(`${name} is already in contacts.`);
       return;
@@ -50,8 +50,8 @@ export class App extends Component {
     );
   };
 
-  isInPhonebook = () => {
-    const { name, contacts } = this.state;
+  isInPhonebook = name => {
+    const { contacts } = this.state;
     return contacts.find(
       contact => contact.name.toLowerCase() === name.toLowerCase()
     );
@@ -59,16 +59,11 @@ export class App extends Component {
 
   render() {
     const filteredContacts = this.getFilteredContacts();
-    const { name, number, filter } = this.state;
+    const { filter } = this.state;
     return (
       <div className="container">
         <h1 className="phonebookTitle">Phonebook</h1>
-        <ContactForm
-          onAddContact={this.addContact}
-          onHandleChange={this.saveName}
-          name={name}
-          number={number}
-        ></ContactForm>
+        <ContactForm onAddContact={this.addContact}></ContactForm>
         <h2 className="contactsTitle">Contacts</h2>
         {this.state.contacts.length !== 0 && (
           <Contactlist

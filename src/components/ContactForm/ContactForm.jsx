@@ -7,17 +7,28 @@ export class ContactForm extends Component {
     number: '',
   };
 
+  onHandleSubmit = e => {
+    e.preventDefault();
+    this.props.onAddContact({ ...this.state });
+    this.setState({ name: '', number: '' });
+  };
+
+  saveName = e => {
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
+  };
+
   render() {
     return (
-      <form className={css.contactForm} onSubmit={onAddContact}>
+      <form className={css.contactForm} onSubmit={this.onHandleSubmit}>
         <label htmlFor="name">Name</label>
         <input
           type="text"
           name="name"
           className={css.contactForm__input}
           id="name"
-          value={name}
-          onChange={onHandleChange}
+          value={this.name}
+          onChange={this.saveName}
           pattern={
             "^[a-zA-Zа-яА-Я]+(([' \\-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           }
@@ -29,8 +40,8 @@ export class ContactForm extends Component {
           name="number"
           className={css.contactForm__input}
           id="number"
-          value={phone}
-          onChange={onHandleChange}
+          value={this.number}
+          onChange={this.saveName}
           pattern={
             '\\+?\\d{1,4}?[ .\\-\\s]?\\(?\\d{1,3}?\\)?[ .\\-\\s]?\\d{1,4}[ .\\-\\s]?\\d{1,4}[ .\\-\\s]?\\d{1,9}'
           }
