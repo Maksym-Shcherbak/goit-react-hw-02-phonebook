@@ -16,7 +16,6 @@ export class App extends Component {
   };
 
   addContact = newContact => {
-    const { contacts } = this.state;
     const { name, number } = newContact;
     const isExist = this.isInPhonebook(name);
     if (isExist) {
@@ -24,18 +23,20 @@ export class App extends Component {
       return;
     }
     const contact = {
-      name: name,
+      name,
       id: nanoid(),
-      number: number,
+      number,
     };
-    this.setState({ contacts: [...contacts, contact] });
+    this.setState(prevState => ({
+      contacts: [...prevState.contacts, contact],
+    }));
   };
 
   deleteContact = e => {
     const { contacts } = this.state;
     const id = e.target.closest('li').id;
     const contactsAfterDelete = contacts.filter(contact => contact.id !== id);
-    this.setState({ contacts: contactsAfterDelete });
+    this.setState(prevState => ({ contacts: contactsAfterDelete }));
   };
 
   searchContact = e => {
