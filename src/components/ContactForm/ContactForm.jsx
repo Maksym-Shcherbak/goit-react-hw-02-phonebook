@@ -11,6 +11,8 @@ export class ContactForm extends Component {
     e.preventDefault();
     this.props.onAddContact({ ...this.state });
     this.setState({ name: '', number: '' });
+    const form = e.currentTarget;
+    form.reset();
   };
 
   saveName = e => {
